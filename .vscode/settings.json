@@ -1,0 +1,48 @@
+{
+    // 在保存文件时自动格式化代码
+    "editor.formatOnSave": true,
+    //启动stylelint检查
+    "stylelint.enable": true,
+    "stylelint.validate": ["vue", "css", "html"],
+    // 禁用 VS Code 内置的 CSS 语法校验—— 这个配置通常和 stylelint 配合使用，目的是避免 VS Code 内置校验和 stylelint 重复提示、规则冲突，让样式校验完全由 stylelint 接管，是前端项目中的最佳实践。
+    "css.validate": false,
+    // 设置 Prettier 作为默认的代码格式化工具
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    //为Vue文件设置默认格式化器
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    //为JavaScript 文件设置默认格式化器
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    //为TypeScript 文件设置默认格式化器
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    //清空 Prettier 禁用格式化的语言列表，让 Prettier 对所有文件类型都生效（不再排除任何语言）
+    "prettier.disableLanguages": [],
+    // 配置保存时执行的代码操作
+    "editor.codeActionsOnSave": {
+        // 在保存时运行 ESLint 的自动修复功能
+        "source.fixAll.eslint": "explicit",
+        //运行stylelint时自动修复功能
+        "source.fixAll.stylelint": "explicit"
+    },
+    //指定需要 ESLint 验证的文件类型
+    "eslint.validate": ["javascript", "typescript", "vue"],
+    //eslint使用扁平化配置文件
+    "eslint.useFlatConfig": true,
+    //css文件后缀关联tailwindcss
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    //开启字符串内容中的代码自动补全提示，这在编写包含模板字符串、Vue 模板内容等场景下非常实用,专门开启字符串字面量（包括单引号 / 双引号 / 模板字符串）中的自动补全提示
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    //告诉 Tailwind 插件，除了默认的 class 属性外，还要识别 ui 属性作为类名载体
+    "tailwindCSS.classAttributes": ["class", "ui"],
+    //用正则表达式自定义提取类名的规则，适配非标准写法（如 ui: { ... } 这种对象格式）
+    "tailwindCSS.experimental.classRegex": [["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]]
+}
