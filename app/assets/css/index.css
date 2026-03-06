@@ -1,2 +1,52 @@
+@import 'animate.css';
 @import 'tailwindcss';
 @import '@nuxt/ui';
+@import './module/scrollbar.css';
+@import './module/docsearch.css';
+@import './module/waline.css';
+
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme {
+    --font-harmonyos-sans-sc: warick, sans-serif;
+
+    /* @nuxtUi/pro 主题色变量，实现类似text-primary效果 */
+    --color-primary: var(--ui-primary);
+    --color-secondary: var(--ui-secondary);
+    --color-success: var(--ui-success);
+    --color-info: var(--ui-info);
+    --color-warning: var(--ui-warning);
+    --color-error: var(--ui-error);
+
+    /* 文本颜色主色 */
+    --color-neutral: var(--ui-text);
+
+    /* 文本颜色次主色 */
+    --color-neutral-muted: var(--ui-text-muted);
+
+    /* 自定义组件容器背景色 */
+    --color-muted: var(--ui-bg-muted);
+
+    /* 自定义容器宽度 */
+    --container-8xl: 90rem;
+}
+
+@layer base {
+    body {
+        font-family: var(--font-harmonyos-sans-sc);
+    }
+
+    article img {
+        width: 100%;
+    }
+
+    @media (width >= 768px) {
+        html,
+        body {
+            cursor: url('https://gcore.jsdelivr.net/gh/AnyFork/Resource/images/20250707211710302.png'), default;
+        }
+
+        a:hover {
+            cursor: url('https://gcore.jsdelivr.net/gh/AnyFork/Resource/images/20250707211821307.png'), pointer;
+        }
+    }
+}

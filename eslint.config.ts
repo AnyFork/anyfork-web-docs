@@ -6,7 +6,12 @@ export default withNuxt(
     eslintPluginPrettier,
     {
         // 其他自定义规则可以放在这里
-        rules: {}
+        rules: {
+            // nuxt.config.ts排序规则
+            'nuxt/nuxt-config-keys-order': 'error',
+            // typescript中允许使用any类型
+            '@typescript-eslint/no-explicit-any': 'off'
+        }
     },
     // 排除不需要eslint进行代码质量检测的文件，全局忽略规则,可以不用单独配置.eslintignore文件
     {

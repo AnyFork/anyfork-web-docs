@@ -61,15 +61,26 @@
         }
     },
     "dependencies": {
+        "@docsearch/css": "^4.6.0",
+        "@docsearch/js": "^4.6.0",
         "@nuxt/ui": "^4.5.1",
+        "@nuxtjs/algolia": "^1.11.2",
+        "@nuxtjs/device": "^4.0.0",
+        "@vueuse/nuxt": "^14.2.1",
+        "@waline/client": "^3.13.0",
+        "animate.css": "^4.1.1",
+        "crypto-js": "^4.2.0",
+        "dayjs-nuxt": "^2.1.11",
         "nuxt": "^4.3.1",
-        "tailwindcss": "^4.2.1"
+        "tailwindcss": "^4.2.1",
+        "typed.js": "^3.0.0"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.4.3",
         "@commitlint/config-conventional": "^20.4.3",
         "@nuxt/eslint": "^1.15.2",
-        "@types/node": "^25.3.3",
+        "@types/crypto-js": "^4.2.2",
+        "@types/node": "^22.19.14",
         "commitizen": "^4.3.1",
         "conventional-changelog-cli": "^5.0.0",
         "cz-git": "^1.12.0",
@@ -79,7 +90,7 @@
         "lint-staged": "^16.3.2",
         "prettier": "^3.8.1",
         "prettier-plugin-organize-imports": "^4.3.0",
-        "prettier-plugin-packagejson": "^3.0.1",
+        "prettier-plugin-packagejson": "^3.0.2",
         "prettier-plugin-tailwindcss": "^0.7.2",
         "simple-git-hooks": "^2.13.1",
         "stylelint": "^17.4.0",
@@ -95,5 +106,13 @@
     "engines": {
         "node": ">=24.9.0",
         "pnpm": ">=10.28.0"
+    },
+    "pnpm": {
+        "ignoredBuiltDependencies": [
+            "@parcel/watcher",
+            "esbuild",
+            "unrs-resolver",
+            "vue-demi"
+        ]
     }
 }

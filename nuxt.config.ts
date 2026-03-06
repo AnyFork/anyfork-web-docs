@@ -1,5 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', 'dayjs-nuxt', '@nuxtjs/device', '@nuxtjs/algolia'],
+    //自定义组件前缀，禁止路径前缀
+    components: [
+        // 网站组件采用WebSite前缀
+        { path: 'components/website', prefix: 'WebSite', pathPrefix: false },
+        // 通用组件无前缀
+        { path: 'components/common', prefix: '', pathPrefix: false }
+    ],
+    // 自定义自定义导入目录
+    imports: {
+        dirs: ['composables/**', 'utils/**']
+    },
+    devtools: { enabled: true },
     app: {
         baseURL: '/',
         head: {
@@ -57,26 +70,114 @@ export default defineNuxtConfig({
             }
         }
     },
-    modules: ['@nuxt/ui', '@nuxt/eslint'],
-    ui: {
-        fonts: false
+    css: ['~/assets/css/index.css'],
+    // // @nuxtjs/color-mode 配置，参考：https://color-mode.nuxtjs.org/#configuration
+    colorMode: {
+        //修改class默认后缀
+        classSuffix: '',
+        //修改默认$colorMode.preference=system为light
+        preference: 'light',
+        //存储方式
+        storage: 'localStorage',
+        //存储cookie名称
+        storageKey: 'nuxt-color-mode'
     },
+    ui: {
+        //开启@nuxt/fonts模块,默认为true
+        fonts: false,
+        //开启@nuxt/color-mode模块,默认为true
+        colorMode: true
+    },
+    runtimeConfig: {
+        public: {
+            // 评价服务端地址
+            NUXT_COMMENT_BASE_URL: 'https://waline.anyfork.top'
+        }
+    },
+    build: {
+        //构建分析工具
+        analyze: {
+            //显示启用
+            enabled: true,
+            //生成stats.html可视化分析包构成
+            analyzerMode: 'static',
+            //构建完成后自动打开
+            open: true
+        }
+    },
+    sourcemap: process.env.NODE_ENV == 'development' ? true : false,
+    //设置开发环境访问地址和端口
+    devServer: {
+        host: '0.0.0.0',
+        port: 9527
+    },
+    compatibilityDate: '2024-04-03',
+    nitro: {
+        // 服务端开启gzip压缩,关闭brotli压缩
+        compressPublicAssets: {
+            // 启用Gzip压缩,生成.gz文件
+            gzip: true,
+            // 关闭brotli压缩
+            brotli: false
+        },
+        // 打包输出目录配置
+        output: {
+            //SSG打包后文件目录
+            publicDir: 'dist'
+        },
+        preset: 'cloudflare_pages_static',
+        cloudflare: {
+            deployConfig: true,
+            nodeCompat: true
+        }
+    },
+    vite: {
+        vue: {
+            template: {
+                compilerOptions: {
+                    //设置自定义元素，返回true，vue不会进行组件解析,此处设置meting-js为自定义组件
+                    isCustomElement: (tag: string) => ['meting-js'].includes(tag)
+                }
+            }
+        }
+    },
+    //docSearch配置，参考文档：https://algolia.nuxtjs.org/advanced/docsearch
+    algolia: {
+        apiKey: '80f3f9f2e9287eb88686df5912a368f6',
+        applicationId: 'OBYO5BJ5I3',
+        docSearch: {
+            indexName: 'anyforktop',
+            lang: 'zh-CN'
+        }
+    },
+
     //eslint配置项 @see https://eslint.nuxt.com/packages/module;
     eslint: {
-        config: {
-            configFile: 'nuxt.config.ts'
-        },
         checker: {
             eslintPath: 'eslint',
             cache: true
         }
     },
-    css: ['~/assets/css/index.css'],
-    devtools: { enabled: true },
-    compatibilityDate: '2024-04-03',
-    //设置开发环境访问地址和端口
-    devServer: {
-        host: '0.0.0.0',
-        port: 9527
+    // @nuxt/icon配置，参考：https://nuxt.com/modules/icon
+    icon: {
+        // 图标从远程服务器`Iconify API`发出请求获取
+        serverBundle: {
+            remote: 'jsdelivr'
+        },
+        // 当请求本地包中不存在的图标时，它将回退到请求官方`Iconify API`
+        fallbackToApi: true,
+        // 自定义本地SVG文件icon图标集合
+        customCollections: [
+            {
+                prefix: 'anyfork',
+                dir: './app/assets/icons'
+            }
+        ],
+        // 拉取图标时超时时间
+        fetchTimeout: 3000,
+        // icon渲染模式，采用css类进行渲染
+        mode: 'css',
+        // css layer名称
+        cssLayer: 'base'
     }
 })

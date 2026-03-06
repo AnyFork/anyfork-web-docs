@@ -1,0 +1,9 @@
+body {
+    /* waline 主题色配置 */
+    --waline-theme-color: var(--ui-primary);
+    --waline-active-color: var(--ui-primary);
+
+    &:where(.dark, .dark *) {
+        --waline-bg-color: var(--ui-bg);
+    }
+}

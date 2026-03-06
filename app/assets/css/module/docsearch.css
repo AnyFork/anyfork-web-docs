@@ -1,0 +1,31 @@
+/* docsearch css变量:https://github.com/algolia/docsearch/blob/main/packages/docsearch-css/src/_variables.css */
+body {
+    /* 搜索框高亮背景色 */
+    --docsearch-highlight-color: var(--ui-primary);
+
+    /* 搜索框高亮文字色 */
+    --docsearch-hit-highlight-color: var(--ui-color-primary-300);
+
+    /* 搜索框背景颜色 */
+    --docsearch-searchbox-background: #ebedf0;
+
+    /* stylelint-disable selector-class-pattern */
+
+    /* 搜索框样式 */
+    .DocSearch-Button {
+        height: 32px;
+        border-radius: 40px;
+    }
+    /* stylelint-enable selector-class-pattern */
+
+    &:where(.dark, .dark *) {
+        /* 搜索框背景颜色 */
+        --docsearch-searchbox-background: #090a11;
+
+        /* 搜索框边框颜色 */
+        --docsearch-subtle-color: var(--ui-primary);
+
+        /* 搜索列表搜索描述文本颜色 */
+        --docsearch-secondary-text-color: #f5f5f5;
+    }
+}
