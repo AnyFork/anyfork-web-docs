@@ -42,6 +42,16 @@ jobs:
               env:
                   NITRO_PRESET: github_pages
 
+            # 6. 生成 CNAME 文件
+            - name: Generate CNAME file
+              run: |
+                  # 确保 dist 目录存在（防止构建失败导致目录缺失）
+                  mkdir -p dist/
+                  # 写入自定义域名到 CNAME 文件（替换为你的域名，如 docs.anyfork.com）
+                  echo "docs.jfork.top" > dist/CNAME
+                  # 验证文件是否生成（可选，便于调试）
+                  cat dist/CNAME
+
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v4
               with:
