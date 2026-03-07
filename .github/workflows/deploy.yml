@@ -9,9 +9,6 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        permissions:
-            contents: write
-            pages: write
         steps:
             # 1. 拉取代码
             - name: Checkout code
@@ -23,13 +20,16 @@ jobs:
               with:
                   # 可指定你项目使用的 pnpm 版本
                   version: 10
+                  # pnpm安装成功后，不执行依赖安装命令
                   run_install: false
 
             # 3. 安装 Node.js
             - name: Set up Node.js
               uses: actions/setup-node@v6
               with:
+                  # 指定node版本
                   node-version: 24
+                  # 缓存pnpm依赖，加速下次运行
                   cache: 'pnpm'
 
             # 4. 安装依赖
@@ -40,9 +40,10 @@ jobs:
             - name: Build project
               run: pnpm run build
               env:
+                  #采用nitro内置的github_pages预设进行打包
                   NITRO_PRESET: github_pages
 
-            # 6. 生成 CNAME 文件
+            # 6. 生成CNAME文件
             - name: Generate CNAME file
               run: |
                   # 确保 dist 目录存在（防止构建失败导致目录缺失）
@@ -52,27 +53,32 @@ jobs:
                   # 验证文件是否生成（可选，便于调试）
                   cat dist/CNAME
 
+            # 7. 上传构建产物，actions/upload-pages-artifact@v4 是 GitHub 官方提供的 Action，将你的项目构建产物（比如前端打包后的 dist/ 目录）上传到 GitHub Pages 的临时存储区，为后续「部署到 GitHub Pages」的步骤提供可部署的文件（比如静态 HTML/CSS/JS），它是 GitHub Pages 新部署流程（替代旧的 actions-gh-pages 方式）的标准步骤，兼容性和稳定性更好
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v4
               with:
                   path: dist/
 
-    # Deployment job
+    # 部署任务
     deploy:
-        # Add a dependency to the build job
+        # 指定Job依赖，实现串行执行，当构建完成后触发部署任务
         needs: build
 
-        # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+        # 授予 GITHUB_TOKEN 进行 Pages 部署所需的权限
         permissions:
-            pages: write # to deploy to Pages
-            id-token: write # to verify the deployment originates from an appropriate source
+            # 部署github pages所需要的写权限
+            pages: write
+            # 验证部署是否来自合适的来源
+            id-token: write
 
-        # Deploy to the github_pages environment
+        # 部署到 github_pages 环境
         environment:
+            # 这里 github-pages 是 GitHub 为 Pages 部署推荐的标准名称（也可以自定义，比如 prod-pages）。
             name: github-pages
+            # 关联部署结果：通过 url 输出部署后的 GitHub Pages 访问地址，方便在 GitHub 界面快速查看；${{ steps.deployment.outputs.page_url }} 是 GitHub Actions 的上下文语法，steps.deployment：指向 ID 为 deployment 的步骤（即 uses: actions/deploy-pages@v4 这一步）；outputs.page_url：该步骤执行后输出的 Pages 访问地址（比如 https://你的用户名.github.io/你的仓库名/）。
             url: ${{ steps.deployment.outputs.page_url }}
 
-        # Specify runner + deployment step
+        # 指定运行器 + 部署步骤
         runs-on: ubuntu-latest
         steps:
             - name: Deploy to GitHub Pages

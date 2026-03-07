@@ -125,11 +125,8 @@ export default defineNuxtConfig({
             //SSG打包后文件目录
             publicDir: 'dist'
         },
-        preset: 'cloudflare_pages_static',
-        cloudflare: {
-            deployConfig: true,
-            nodeCompat: true
-        }
+        // 通过cross-env动态设置预设
+        preset: process.env.NITRO_PRESET
     },
     vite: {
         vue: {
