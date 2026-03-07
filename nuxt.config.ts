@@ -129,7 +129,19 @@ export default defineNuxtConfig({
         preset: process.env.NITRO_PRESET,
         cloudflare: {
             deployConfig: true,
-            nodeCompat: true
+            nodeCompat: true,
+            wrangler: {
+                vars: {
+                    NODE_VERSION: '24.9.0',
+                    PNPM_VERSION: '10.28.0',
+                    NITRO_PRESET: 'cloudflare_pages'
+                },
+                pages_build_output_dir: './dist',
+                name: 'anyfork-web-docs',
+                observability: {
+                    enabled: true
+                }
+            }
         }
     },
     vite: {
