@@ -126,7 +126,11 @@ export default defineNuxtConfig({
             publicDir: 'dist'
         },
         // 通过cross-env动态设置预设
-        preset: process.env.NITRO_PRESET
+        preset: process.env.NITRO_PRESET,
+        cloudflare: {
+            deployConfig: true,
+            nodeCompat: true
+        }
     },
     vite: {
         vue: {
