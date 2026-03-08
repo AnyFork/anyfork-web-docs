@@ -120,29 +120,7 @@ export default defineNuxtConfig({
             // 关闭brotli压缩
             brotli: false
         },
-        // 打包输出目录配置
-        output: {
-            //SSG打包后文件目录
-            publicDir: 'dist'
-        },
-        // 通过cross-env动态设置预设
-        preset: process.env.NITRO_PRESET,
-        cloudflare: {
-            deployConfig: true,
-            nodeCompat: true,
-            wrangler: {
-                vars: {
-                    NODE_VERSION: '24.9.0',
-                    PNPM_VERSION: '10.28.0',
-                    NITRO_PRESET: 'cloudflare_pages'
-                },
-                pages_build_output_dir: './dist',
-                name: 'anyfork-web-docs',
-                observability: {
-                    enabled: true
-                }
-            }
-        }
+        preset: 'cloudflare_pages'
     },
     vite: {
         vue: {

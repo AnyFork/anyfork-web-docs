@@ -10,13 +10,11 @@
     "type": "module",
     "scripts": {
         "build": "nuxt build",
-        "build:cloudflare": "cross-env NITRO_PRESET=cloudflare_pages nuxt build",
+        "build:cloudflare": "cross-env NITRO_PRESET=cloudflare_pages_static nuxt build",
         "build:netlify": "cross-env NITRO_PRESET=netlify-static nuxt build",
-        "cf-typegen": "wrangler types",
         "changelog": "conventional-changelog -p commitlint.config.js -i CHANGELOG.md -s",
         "changelog:all": "conventional-changelog -p commitlint.config.js -i CHANGELOG.md -s -r 0",
         "commit": "git add . && git cz",
-        "deploy": "pnpm run build && wrangler deploy",
         "deploy:cloudflare": "wrangler pages deploy dist",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
@@ -27,7 +25,6 @@
         "lint:style:fix": "stylelint '**/*.{css,vue}' --fix",
         "prepare": "simple-git-hooks",
         "prettier": "prettier --write .",
-        "preview": "pnpm run build && wrangler dev",
         "preview:cloudflare": "wrangler pages dev dist",
         "preview:local": "nuxt preview",
         "preview:netlify": "pnpm dlx serve dist"
@@ -110,8 +107,7 @@
         "stylelint-order": "^7.0.1",
         "typescript": "^5.9.3",
         "vite-plugin-eslint2": "^5.0.5",
-        "vue-tsc": "^3.2.5",
-        "wrangler": "^4.71.0"
+        "vue-tsc": "^3.2.5"
     },
     "engines": {
         "node": ">=24.9.0",
