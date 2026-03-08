@@ -20,7 +20,7 @@ export default defineNuxtConfig({
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width,initial-scale=1.0' },
-                { name: 'description', content: '一款基于SpringBoot3服务端框架,Nuxt4.X,Vue3.X,Nuxt UI Pro,TailwindCSS 4.X和TypeScript前端框架开发的,Vite构建的,内容采用markdown语法编写的个人CMS系统，记录日常工作中的技术文档和工作心得。' },
+                { name: 'description', content: '基于 Nuxt4、Nuxt UI 4、Nuxt Content 及 TypeScript 构建个人博客文档系统，采用 Markdown 编写技术文档与工作心得。集成 ESLint、Prettier、stylelint 保障代码规范，结合 git 提交工具链实现提交规范约束与日志自动化生成，符合企业级开发标准。' },
                 { name: 'type', content: 'website' },
                 { name: 'keywords', content: 'Java,SpringBoot,Vue,Nuxt,Vite,Nuxt UI Pro,TailwindCSS,CMS' },
                 { name: 'author', content: 'anyfork@gmail.com' },
@@ -71,7 +71,7 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/css/index.css'],
-    // // @nuxtjs/color-mode 配置，参考：https://color-mode.nuxtjs.org/#configuration
+    // @nuxtjs/color-mode 配置，参考：https://color-mode.nuxtjs.org/#configuration
     colorMode: {
         //修改class默认后缀
         classSuffix: '',
@@ -134,6 +134,27 @@ export default defineNuxtConfig({
                 compilerOptions: {
                     //设置自定义元素，返回true，vue不会进行组件解析,此处设置meting-js为自定义组件
                     isCustomElement: (tag: string) => ['meting-js'].includes(tag)
+                }
+            }
+        },
+        esbuild: {
+            sourcemap: process.env.NODE_ENV == 'development' ? true : false,
+            // 移除console,debugger关键字
+            drop: process.env.NODE_ENV == 'development' ? [] : ['console', 'debugger']
+        },
+        build: {
+            minify: 'esbuild',
+            //用于指定小于此阈值的资源文件（如图片、字体等）是否应内联到打包后的JavaScript文件中。默认情况下，所有小于4KB的资源文件会被内联为base64编码，以减少HTTP请求的数量‌
+            assetsInlineLimit: 4096,
+            chunkSizeWarningLimit: 5000,
+            rollupOptions: {
+                output: {
+                    // 指定打包后的入口文件名规则
+                    entryFileNames: '_nuxt/js/[name].[hash].js',
+                    // 分包chunk碎片文件命名规则
+                    chunkFileNames: '_nuxt/js/[name].[hash].js',
+                    // 定义构建后的静态资源文件名
+                    assetFileNames: '_nuxt/[ext]/[name].[hash].[ext]'
                 }
             }
         }

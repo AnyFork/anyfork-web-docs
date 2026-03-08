@@ -2,7 +2,8 @@
     "name": "anyfork-web-docs",
     "version": "1.0.0",
     "private": true,
-    "description": "基于 Vite + Vue + TypeScript 构建的企业级Vue管理后台前端通用项目，集成 Nuxt UI、Pinia、VueRouter、Tailwind CSS、Alova 等核心技术，并通过 ESLint、Prettier、stylelint 保障代码规范，结合 husky、lint-staged、commitlint、commitizen、cz-git、conventional-changelog 实现提交规范与自动化日志生成，符合企业级项目开发标准。",
+    "description": "基于 Nuxt4、Nuxt UI 4、Nuxt Content 及 TypeScript 构建个人博客文档系统，采用 Markdown 编写技术文档与工作心得。集成 ESLint、Prettier、stylelint 保障代码规范，结合 git 提交工具链实现提交规范约束与日志自动化生成，符合企业级开发标准。",
+    "license": "MIT",
     "author": {
         "name": "anyfork",
         "email": "anyfork@gmail.com"
