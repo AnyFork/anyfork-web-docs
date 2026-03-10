@@ -196,19 +196,9 @@ export default defineNuxtConfig({
     },
     // @nuxt/icon配置，参考：https://nuxt.com/modules/icon
     icon: {
-        // 图标从远程服务器`Iconify API`发出请求获取
-        serverBundle: {
-            remote: 'jsdelivr'
-        },
-        // 当请求本地包中不存在的图标时，它将回退到请求官方`Iconify API`
-        fallbackToApi: true,
-        // 自定义本地SVG文件icon图标集合
-        customCollections: [
-            {
-                prefix: 'anyfork',
-                dir: './app/assets/icons'
-            }
-        ],
+        // 图标从iconify获取
+        provider: 'iconify',
+        serverBundle: false,
         // 拉取图标时超时时间
         fetchTimeout: 3000,
         // icon渲染模式，采用css类进行渲染
