@@ -62,6 +62,8 @@ export default defineNuxtConfig({
             link: [
                 { rel: 'icon', type: 'image/x-icon', href: 'https://gcore.jsdelivr.net/gh/AnyFork/Resource/images/favicon.ico' },
                 { rel: 'stylesheet', type: 'text/css', href: 'https://gcore.jsdelivr.net/gh/AnyFork/Resource/fonts/division/Warick/warick.css' },
+                { rel: 'stylesheet', type: 'text/css', href: 'https://gcore.jsdelivr.net/gh/AnyFork/Resource/fonts/division/AlimamaFangYuanTiVF/AlimamaFangYuanTiVF-Thin-2.css' },
+                { rel: 'stylesheet', type: 'text/css', href: 'https://gcore.jsdelivr.net/gh/AnyFork/Resource/fonts/division/HarmonyOS/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular/HarmonyOS_Sans_SC_Regular.css' },
                 { rel: 'stylesheet', type: 'text/css', href: 'https://gcore.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css' }
             ],
             htmlAttrs: {
@@ -85,7 +87,7 @@ export default defineNuxtConfig({
     content: {},
     ui: {
         //开启@nuxt/fonts模块,默认为true
-        fonts: true,
+        fonts: false,
         //开启@nuxt/color-mode模块,默认为true
         colorMode: true,
         //实验特性
@@ -183,17 +185,17 @@ export default defineNuxtConfig({
         }
     },
     //自定义字体
-    fonts: {
-        families: [
-            { name: 'Public Sans', provider: 'google', global: true },
-            { name: 'DM Sans', provider: 'google', global: true },
-            { name: 'Geist', provider: 'google', global: true },
-            { name: 'Inter', provider: 'google', global: true },
-            { name: 'Poppins', provider: 'google', global: true },
-            { name: 'Outfit', provider: 'google', global: true },
-            { name: 'Raleway', provider: 'google', global: true }
-        ]
-    },
+    // fonts: {
+    //     families: [
+    //         { name: 'Public Sans', provider: 'google', global: true },
+    //         { name: 'DM Sans', provider: 'google', global: true },
+    //         { name: 'Geist', provider: 'google', global: true },
+    //         { name: 'Inter', provider: 'google', global: true },
+    //         { name: 'Poppins', provider: 'google', global: true },
+    //         { name: 'Outfit', provider: 'google', global: true },
+    //         { name: 'Raleway', provider: 'google', global: true }
+    //     ]
+    // },
     // @nuxt/icon配置，参考：https://nuxt.com/modules/icon
     icon: {
         // 图标从iconify获取

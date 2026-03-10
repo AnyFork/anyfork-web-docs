@@ -1,5 +1,6 @@
 import { omit } from '#ui/utils'
 import { themeIcons } from '@/utils/theme'
+import type { SelectItem } from '@nuxt/ui'
 import colors from 'tailwindcss/colors'
 
 export function useTheme() {
@@ -43,7 +44,20 @@ export function useTheme() {
         }
     })
     //字体值
-    const fonts = ['warick', 'Public Sans', 'DM Sans', 'Geist', 'Inter', 'Poppins', 'Outfit', 'Raleway']
+    const fonts = ref<SelectItem[]>([
+        {
+            label: '方正筑紫圆体',
+            value: 'warick'
+        },
+        {
+            label: '阿里妈妈方圆体',
+            value: 'alifangyuan'
+        },
+        {
+            label: '鸿蒙黑体 SC 常规体',
+            value: 'HarmonyOS Sans SC'
+        }
+    ])
     const font = computed({
         get() {
             return appConfig.theme?.font
