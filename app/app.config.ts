@@ -3,7 +3,9 @@ import type { AppConfigInput } from 'nuxt/schema'
 export default defineAppConfig<AppConfigInput>({
     theme: {
         radius: 0.25,
-        blackAsPrimary: false
+        blackAsPrimary: false,
+        icons: 'lucide',
+        font: 'Public Sans'
     },
     ui: {
         colors: {

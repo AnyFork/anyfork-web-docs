@@ -69,12 +69,14 @@
     "dependencies": {
         "@docsearch/css": "^4.6.0",
         "@docsearch/js": "^4.6.0",
+        "@nuxt/content": "^3.12.0",
         "@nuxt/ui": "^4.5.1",
         "@nuxtjs/algolia": "^1.11.2",
         "@nuxtjs/device": "^4.0.0",
         "@vueuse/nuxt": "^14.2.1",
         "@waline/client": "^3.13.0",
         "animate.css": "^4.1.1",
+        "better-sqlite3": "^12.6.2",
         "crypto-js": "^4.2.0",
         "dayjs-nuxt": "^2.1.11",
         "nuxt": "^4.3.1",
@@ -114,13 +116,5 @@
     "engines": {
         "node": ">=24.9.0",
         "pnpm": ">=10.28.0"
-    },
-    "pnpm": {
-        "ignoredBuiltDependencies": [
-            "@parcel/watcher",
-            "esbuild",
-            "unrs-resolver",
-            "vue-demi"
-        ]
     }
 }

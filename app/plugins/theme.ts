@@ -1,82 +1,108 @@
+import type { ThemeColor } from '~/types/app.config'
+
 export default defineNuxtPlugin({
     enforce: 'post',
     name: 'theme-color-init',
     setup() {
         const appConfig = useAppConfig()
         if (import.meta.client) {
-            const updateColor = (type: 'primary' | 'neutral') => {
-                const color = localStorage.getItem(`nuxt-ui-${type}`)
-                if (type == 'primary') {
-                    const blackAsPrimary = localStorage.getItem(`nuxt-ui-black-as-primary`)
-                    appConfig.theme!.blackAsPrimary = blackAsPrimary == 'true' ? true : false
-                    if (blackAsPrimary == 'true') {
-                        if (appConfig.ui?.colors) {
-                            appConfig.ui.colors[type] = 'black' as any
-                        }
-                    } else {
-                        if (color) {
-                            if (appConfig.ui?.colors) {
-                                appConfig.ui.colors[type] = color as any
-                            }
-                        }
-                    }
-                } else {
-                    if (color) {
-                        if (appConfig.ui?.colors) {
-                            appConfig.ui.colors[type] = color as any
-                        }
-                    }
+            function updateColor(type: 'primary' | 'neutral') {
+                const color = localStorage.getItem(`nuxt-ui-${type}`) as ThemeColor
+                if (color) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    /** @ts-expect-error */
+                    appConfig.ui.colors[type] = color
                 }
             }
-            const updateRadius = () => {
+            function updateRadius() {
                 const radius = localStorage.getItem('nuxt-ui-radius')
                 if (radius) {
-                    if (appConfig.theme?.radius) {
-                        appConfig.theme.radius = Number.parseFloat(radius)
-                    } else {
-                        appConfig.theme = {
-                            radius: Number.parseFloat(radius)
-                        }
-                    }
+                    appConfig.theme.radius = Number.parseFloat(radius)
+                }
+            }
+            function updateBlackAsPrimary() {
+                const blackAsPrimary = localStorage.getItem('nuxt-ui-black-as-primary')
+                if (blackAsPrimary) {
+                    appConfig.theme.blackAsPrimary = blackAsPrimary === 'true'
+                }
+            }
+            function updateFont() {
+                const font = localStorage.getItem('nuxt-ui-font')
+                if (font) {
+                    appConfig.theme.font = font
                 }
             }
             updateColor('primary')
             updateColor('neutral')
             updateRadius()
+            updateBlackAsPrimary()
+            updateFont()
         }
+        onNuxtReady(() => {
+            function updateIcons() {
+                const icons = localStorage.getItem('nuxt-ui-icons') as ThemeIcons
+                if (icons) {
+                    appConfig.theme.icons = icons
+                    appConfig.ui.icons = themeIcons[icons as keyof typeof themeIcons] as any
+                }
+            }
+
+            updateIcons()
+        })
         if (import.meta.server) {
             useHead({
                 script: [
                     {
                         innerHTML: `
-              let html = document.querySelector('style#nuxt-ui-colors').innerHTML;
-              if (localStorage.getItem('nuxt-ui-primary')) {
-                const primaryColor = localStorage.getItem('nuxt-ui-primary');
+            let html = document.querySelector('style#nuxt-ui-colors').innerHTML;
+
+            if (localStorage.getItem('nuxt-ui-primary')) {
+              const primaryColor = localStorage.getItem('nuxt-ui-primary');
+              if (primaryColor !== 'black') {
                 html = html.replace(
-                  /(--ui-color-primary-\\d{2,3}:\\s*var\\()--color-${appConfig.ui?.colors?.primary}-(\\d{2,3}\\))/g,
-                  \`$1--color-\${primaryColor}-$2\`
+                  /(--ui-color-primary-\\d{2,3}:\\s*var\\(--color-)${appConfig.ui.colors.primary}(-\\d{2,3}.*?\\))/g,
+                  \`$1\${primaryColor}$2\`
                 );
               }
-              if (localStorage.getItem('nuxt-ui-neutral')) {
-                const neutralColor = localStorage.getItem('nuxt-ui-neutral');
-                html = html.replace(
-                  /(--ui-color-neutral-\\d{2,3}:\\s*var\\()--color-${appConfig.ui?.colors?.neutral}-(\\d{2,3}\\))/g,
-                  \`$1--color-\${neutralColor}-$2\`
-                );
-              }
-              document.querySelector('style#nuxt-ui-colors').innerHTML = html;
-              `.replace(/\s+/g, ' '),
+            }
+            if (localStorage.getItem('nuxt-ui-neutral')) {
+              let neutralColor = localStorage.getItem('nuxt-ui-neutral');
+              html = html.replace(
+                /(--ui-color-neutral-\\d{2,3}:\\s*var\\(--color-)${appConfig.ui.colors.neutral}(-\\d{2,3}.*?\\))/g,
+                \`$1\${neutralColor === 'neutral' ? 'old-neutral' : neutralColor}$2\`
+              );
+            }
+
+            document.querySelector('style#nuxt-ui-colors').innerHTML = html;
+            `.replace(/\s+/g, ' '),
                         type: 'text/javascript',
                         tagPriority: -1
                     },
                     {
                         innerHTML: `
-              if (localStorage.getItem('nuxt-ui-radius')) {
-                document.querySelector('style#nuxt-ui-radius').innerHTML = ':root { --ui-radius: ' + localStorage.getItem('nuxt-ui-radius') + 'rem; }';
-              }
-            `.replace(/\s+/g, ' '),
+            if (localStorage.getItem('nuxt-ui-radius')) {
+              document.querySelector('style#nuxt-ui-radius').innerHTML = ':root { --ui-radius: ' + localStorage.getItem('nuxt-ui-radius') + 'rem; }';
+            }
+          `.replace(/\s+/g, ' '),
                         type: 'text/javascript',
                         tagPriority: -1
+                    },
+                    {
+                        innerHTML: `
+            if (localStorage.getItem('nuxt-ui-black-as-primary') === 'true') {
+              document.querySelector('style#nuxt-ui-black-as-primary').innerHTML = ':root { --ui-primary: black; } .dark { --ui-primary: white; }';
+            } else {
+              document.querySelector('style#nuxt-ui-black-as-primary').innerHTML = '';
+            }
+          `.replace(/\s+/g, ' ')
+                    },
+                    {
+                        innerHTML: `
+            if (localStorage.getItem('nuxt-ui-font')) {
+              const font = localStorage.getItem('nuxt-ui-font');
+              document.querySelector('style#nuxt-ui-font').innerHTML = ':root { --font-sans: \\'' + font + '\\', sans-serif; }';
+            }
+          `.replace(/\s+/g, ' ')
                     }
                 ]
             })

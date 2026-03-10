@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', 'dayjs-nuxt', '@nuxtjs/device', '@nuxtjs/algolia'],
+    modules: ['@nuxt/ui', '@nuxt/content', '@nuxt/eslint', '@vueuse/nuxt', 'dayjs-nuxt', '@nuxtjs/device', '@nuxtjs/algolia'],
     //自定义组件前缀，禁止路径前缀
     components: [
         // 网站组件采用WebSite前缀
@@ -82,11 +82,17 @@ export default defineNuxtConfig({
         //存储cookie名称
         storageKey: 'nuxt-color-mode'
     },
+    content: {},
     ui: {
         //开启@nuxt/fonts模块,默认为true
-        fonts: false,
+        fonts: true,
         //开启@nuxt/color-mode模块,默认为true
-        colorMode: true
+        colorMode: true,
+        //实验特性
+        experimental: {
+            //自动推断项目中使用了的组件css
+            componentDetection: true
+        }
     },
     runtimeConfig: {
         public: {
@@ -175,6 +181,18 @@ export default defineNuxtConfig({
             eslintPath: 'eslint',
             cache: true
         }
+    },
+    //自定义字体
+    fonts: {
+        families: [
+            { name: 'Public Sans', provider: 'google', global: true },
+            { name: 'DM Sans', provider: 'google', global: true },
+            { name: 'Geist', provider: 'google', global: true },
+            { name: 'Inter', provider: 'google', global: true },
+            { name: 'Poppins', provider: 'google', global: true },
+            { name: 'Outfit', provider: 'google', global: true },
+            { name: 'Raleway', provider: 'google', global: true }
+        ]
     },
     // @nuxt/icon配置，参考：https://nuxt.com/modules/icon
     icon: {

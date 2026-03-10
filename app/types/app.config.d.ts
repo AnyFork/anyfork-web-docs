@@ -1,17 +1,18 @@
 import type * as ui from '#build/ui'
 import type { DeepPartial } from '#ui/types/utils'
+import type { ThemeIcons } from '@/utils/theme.ts'
 import type { NavigationMenuItem } from '@nuxt/ui'
 import type { defaultConfig } from 'tailwind-variants'
 import type colors from 'tailwindcss/colors'
 
 /** 图标名称与图标类名的映射类型 */
-type IconMap = typeof _icons
+export type IconMap = typeof _icons
 
 /** Tailwind 中性色类型（排除特殊值） */
-type NeutralColor = 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone'
+export type NeutralColor = 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'taupe' | 'mauve' | 'mist' | 'olive'
 
 /** Tailwind 主题色类型（排除中性色/特殊值） */
-type ThemeColor = Exclude<keyof typeof colors, 'inherit' | 'current' | 'transparent' | 'black' | 'white' | NeutralColor>
+export type ThemeColor = Exclude<keyof typeof colors, 'inherit' | 'current' | 'transparent' | 'black' | 'white' | NeutralColor>
 
 /** 网站魔法特效配置 */
 interface WebsiteMagicConfig {
@@ -111,16 +112,24 @@ declare module 'nuxt/schema' {
         /** 全局提示框配置 */
         toaster?: ToasterProps
         /** 主题基础配置 */
-        theme?: {
+        theme: {
             /** 圆角大小(px) */
-            radius?: number
+            radius: number
             /** 是否将黑色作为主色调 */
-            blackAsPrimary?: boolean
+            blackAsPrimary: boolean
+            /**
+             * 图标类型
+             */
+            icons: ThemeIcons
+            /**
+             * 字体类型
+             */
+            font: string
         }
         /** UI组件库配置 */
-        ui?: {
+        ui: {
             /** 颜色体系配置 */
-            colors?: {
+            colors: {
                 /** 主色调 */
                 primary?: ThemeColor
                 /** 中性色 */

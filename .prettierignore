@@ -1,3 +1,4 @@
 node_modules
 .nuxt
 pnpm-lock.yaml
+content
