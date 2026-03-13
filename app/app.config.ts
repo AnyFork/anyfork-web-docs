@@ -32,19 +32,19 @@ export default defineAppConfig<AppConfigInput>({
                 },
                 {
                     label: '文档',
-                    to: '/docs.html'
+                    to: '/docs'
                 },
                 {
                     label: '分类',
-                    to: '/article/category/search.html'
+                    to: '/article/category/search'
                 },
                 {
                     label: '标签',
-                    to: '/article/tags/algolia.html'
+                    to: '/article/tags/algolia'
                 },
                 {
                     label: '导航',
-                    to: '/links.html'
+                    to: '/links'
                 }
             ]
         },

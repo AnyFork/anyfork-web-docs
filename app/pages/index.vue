@@ -75,7 +75,7 @@
 <template>
     <UPage :ui="{ center: 'lg:col-span-7 order-first', right: 'lg:col-span-3  lg:order-last' }">
         <UPageBody prose class="mt-0 mb-1 pb-2">
-            <WebSiteBlogCard v-for="(article, index) in currentBlogPage" :key="index" :to="`/article/detail/${article.id}.html`" :article="article" :position="(index + 1) % 2 == 0 ? 'left' : 'right'"></WebSiteBlogCard>
+            <WebSiteBlogCard v-for="(article, index) in currentBlogPage" :key="index" :to="`/article/detail/${article.id}`" :article="article" :position="(index + 1) % 2 == 0 ? 'left' : 'right'"></WebSiteBlogCard>
             <div v-if="total > pageSize" class="text-neutral flex flex-wrap items-center justify-center gap-1">
                 <UPagination v-model:page="page" :items-per-page="pageSize" :total="total" />
                 <span class="text-[14px] md:text-[16px]">共{{ total }}条</span>
@@ -92,7 +92,7 @@
                     <div class="dark:bg-muted rounded-[calc(var(--ui-radius)*2)]">
                         <div v-for="(item, index) in hotArticle" :key="'hot' + index" class="group flex gap-x-2 border-b border-dashed border-b-neutral-200 py-1 text-[14px]">
                             <span class="group-hover:text-primary text-muted">{{ index + 1 }}</span>
-                            <ULink :to="`/article/detail/${item.articleId}.html`" target="_blank" class="hover:text-primary line-clamp-2">{{ item.title }}</ULink>
+                            <ULink :to="`/article/detail/${item.articleId}`" target="_blank" class="hover:text-primary line-clamp-2">{{ item.title }}</ULink>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                             <div class="group flex items-center gap-2">
                                 <img :src="item.articleThumb" class="w-1/3 rounded transition-transform group-hover:scale-95" />
                                 <div>
-                                    <ULink :to="`/article/detail/${item.articleId}.html`" target="_blank" class="hover:text-primary line-clamp-2">{{ item.title }}</ULink>
+                                    <ULink :to="`/article/detail/${item.articleId}`" target="_blank" class="hover:text-primary line-clamp-2">{{ item.title }}</ULink>
                                     <p class="text-neutral-muted pt-1 text-[13px]">{{ item.createDate }}</p>
                                 </div>
                             </div>
@@ -121,12 +121,12 @@
                             <Icon name="wordpress:category" class="size-5" />
                             <span>文章分类</span>
                         </div>
-                        <ULink to="/article/category/search.html" target="_blank" class="text-primary hover:text-primary flex items-center">
+                        <ULink to="/article/category/search" target="_blank" class="text-primary hover:text-primary flex items-center">
                             <UIcon name="i-mingcute-right-line" class="cursor-pointer text-[24px] hover:scale-110" />
                         </ULink>
                     </div>
                     <div class="my-1 w-full">
-                        <NuxtLink v-for="(cateItem, index) in cateComputed.categoryArray" :key="'category' + index" :to="`/article/category/${cateItem.symbol}.html`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default my-1 flex h-8 w-full cursor-pointer items-center justify-between rounded-[calc(var(--ui-radius)*2)] border pr-3.5 pl-2 text-[14px]">
+                        <NuxtLink v-for="(cateItem, index) in cateComputed.categoryArray" :key="'category' + index" :to="`/article/category/${cateItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default my-1 flex h-8 w-full cursor-pointer items-center justify-between rounded-[calc(var(--ui-radius)*2)] border pr-3.5 pl-2 text-[14px]">
                             <div class="flex items-center gap-1">
                                 <Icon v-if="cateItem.icon" :name="cateItem.icon" class="size-4" />
                                 <span>{{ cateItem.name }}</span>
@@ -142,12 +142,12 @@
                             <Icon name="fluent:tag-lock-20-regular" class="size-5" />
                             <span>文章标签</span>
                         </div>
-                        <ULink to="/article/tags/algolia.html" target="_blank" class="text-primary hover:text-primary flex items-center">
+                        <ULink to="/article/tags/algolia" target="_blank" class="text-primary hover:text-primary flex items-center">
                             <UIcon name="i-mingcute-right-line" class="cursor-pointer text-[24px] hover:scale-110" />
                         </ULink>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <NuxtLink v-for="(tagItem, index) in cateComputed.tagArray" :key="'tag' + index" :to="`/article/tags/${tagItem.symbol}.html`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default flex items-center justify-between rounded-[calc(var(--ui-radius)*2)] border p-1 text-[14px]">
+                        <NuxtLink v-for="(tagItem, index) in cateComputed.tagArray" :key="'tag' + index" :to="`/article/tags/${tagItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default flex items-center justify-between rounded-[calc(var(--ui-radius)*2)] border p-1 text-[14px]">
                             <div class="flex items-center gap-1">
                                 <Icon v-if="tagItem.icon" :name="tagItem.icon" class="size-4" />
                                 <span>{{ tagItem.name }}</span>
@@ -163,7 +163,7 @@
                             <Icon name="fluent:cloud-link-20-regular" class="size-5" />
                             <span>快捷导航</span>
                         </div>
-                        <ULink to="/links.html" target="_blank" class="text-primary hover:text-primary flex items-center">
+                        <ULink to="/links" target="_blank" class="text-primary hover:text-primary flex items-center">
                             <UIcon name="i-mingcute-right-line" class="cursor-pointer text-[24px] hover:scale-110" />
                         </ULink>
                     </div>

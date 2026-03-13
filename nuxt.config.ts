@@ -77,6 +77,11 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/css/index.css'],
+    router: {
+        options: {
+            strict: true
+        }
+    },
     // @nuxtjs/color-mode 配置，参考：https://color-mode.nuxtjs.org/#configuration
     colorMode: {
         //修改class默认后缀
@@ -126,7 +131,7 @@ export default defineNuxtConfig({
             //生成stats.html可视化分析包构成
             analyzerMode: 'static',
             //构建完成后自动打开
-            open: true
+            open: false
         }
     },
     sourcemap: process.env.NODE_ENV == 'development' ? true : false,
@@ -208,15 +213,15 @@ export default defineNuxtConfig({
             if (tagIds && tagIds.length > 0) {
                 content.tagInfo = getTags(tagIds)
             }
-        },
-        //重写路由规则，加上.html后缀
-        'pages:extend'(pages) {
-            pages.forEach((page) => {
-                if (page.path !== '/') {
-                    page.path = `${page.path}.html`
-                }
-            })
         }
+        //重写路由规则，加上.html后缀
+        // 'pages:extend'(pages) {
+        //     pages.forEach((page) => {
+        //         if (page.path !== '/') {
+        //             page.path = `${page.path}.html`
+        //         }
+        //     })
+        // }
     },
     //docSearch配置，参考文档：https://algolia.nuxtjs.org/advanced/docsearch
     algolia: {

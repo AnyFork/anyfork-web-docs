@@ -4,7 +4,7 @@
             <UIcon name="icon-park-outline:to-top" class="size-4 text-white md:size-5"></UIcon>
         </div>
         <UCard :ui="ui">
-            <NuxtLink :to="`/article/detail/${article?.articleId}.html`" target="_blank" class="absolute inset-0 border-none focus:outline-none"></NuxtLink>
+            <NuxtLink :to="`/article/detail/${article?.articleId}`" target="_blank" class="absolute inset-0 border-none focus:outline-none"></NuxtLink>
             <div v-if="position == 'left'" class="md:flex md:gap-6">
                 <div class="w-full md:flex md:w-70 md:grow-0">
                     <img :src="article?.articleThumb" loading="lazy" class="h-32.5 w-full rounded-[calc(var(--ui-radius)*2)] transition-transform duration-1000 md:h-32.5 md:w-70 md:animate-pulse md:group-hover:scale-105" />
@@ -29,8 +29,8 @@
             </div>
             <template #footer>
                 <div class="grid grid-cols-3 gap-1 md:flex md:justify-start md:gap-5">
-                    <WebSiteBlogExtra v-if="article?.categoryInfo?.name" icon-name="wordpress:category" :text="article?.categoryInfo?.name" :to="`/article/category/${article.categoryInfo.symbol}.html`"> </WebSiteBlogExtra>
-                    <WebSiteBlogExtra v-if="article?.tagInfo && article?.tagInfo.length > 0" icon-name="fluent:tag-lock-20-regular" :text="article?.tagInfo[0]?.name!" :to="`/article/tags/${article.tagInfo[0]?.symbol}.html`" class="hidden md:flex"> </WebSiteBlogExtra>
+                    <WebSiteBlogExtra v-if="article?.categoryInfo?.name" icon-name="wordpress:category" :text="article?.categoryInfo?.name" :to="`/article/category/${article.categoryInfo.symbol}`"> </WebSiteBlogExtra>
+                    <WebSiteBlogExtra v-if="article?.tagInfo && article?.tagInfo.length > 0" icon-name="fluent:tag-lock-20-regular" :text="article?.tagInfo[0]?.name!" :to="`/article/tags/${article.tagInfo[0]?.symbol}`" class="hidden md:flex"> </WebSiteBlogExtra>
                     <WebSiteBlogExtra v-if="article.createDate" icon-name="solar:calendar-line-duotone" :text="article.createDate"> </WebSiteBlogExtra>
                     <WebSiteBlogExtra icon-name="system-uicons:book" :text="article.wordCount + '字'"> </WebSiteBlogExtra>
                     <WebSiteBlogExtra icon-name="material-symbols-light:hourglass-outline-rounded" :text="article.readingTime + '分钟'"> </WebSiteBlogExtra>
@@ -67,7 +67,7 @@
     onMounted(() => {
         pageviewCount({
             serverURL: 'https://waline.anyfork.top',
-            path: `/article/detail/${article.articleId}.html`,
+            path: `/article/detail/${article.articleId}`,
             update: false
         })
     })

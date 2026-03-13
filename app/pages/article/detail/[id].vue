@@ -9,8 +9,8 @@
                     <template #description>
                         <div>
                             <div class="grid grid-cols-3 gap-1 md:flex md:justify-start md:gap-5">
-                                <WebSiteBlogExtra v-if="page?.categoryInfo?.name" icon-name="wordpress:category" :text="page?.categoryInfo?.name" :to="`/page/category/index.html?categoryId=${page.categoryId}`"> </WebSiteBlogExtra>
-                                <WebSiteBlogExtra v-if="page?.tagInfo && page?.tagInfo.length > 0" icon-name="fluent:tag-lock-20-regular" :text="page?.tagInfo[0]?.name!" :to="`/page/tags/index.html?tagId=${page?.tagInfo[0]?.id}`" class="hidden md:flex"> </WebSiteBlogExtra>
+                                <WebSiteBlogExtra v-if="page?.categoryInfo?.name" icon-name="wordpress:category" :text="page?.categoryInfo?.name" :to="`/article/category/${page.categoryInfo.symbol}`"> </WebSiteBlogExtra>
+                                <WebSiteBlogExtra v-if="page?.tagInfo && page?.tagInfo.length > 0" icon-name="fluent:tag-lock-20-regular" :text="page?.tagInfo[0]?.name!" :to="`/article/tags/${page.tagInfo[0]?.symbol}`" class="hidden md:flex"> </WebSiteBlogExtra>
                                 <WebSiteBlogExtra v-if="page?.createDate" icon-name="solar:calendar-line-duotone" :text="page.createDate"> </WebSiteBlogExtra>
                                 <WebSiteBlogExtra icon-name="system-uicons:book" :text="page?.wordCount + '字'"> </WebSiteBlogExtra>
                                 <WebSiteBlogExtra icon-name="material-symbols-light:hourglass-outline-rounded" :text="page?.readingTime + '分钟'"> </WebSiteBlogExtra>
@@ -51,12 +51,12 @@
             const prev = surround.value[0]
             const next = surround.value[1]
             if (prev != null) {
-                arr.push({ title: '上一篇', path: `/article/detail/${prev.articleId}.html`, description: prev.title })
+                arr.push({ title: '上一篇', path: `/article/detail/${prev.articleId}`, description: prev.title })
             } else {
                 arr.push(null)
             }
             if (next != null) {
-                arr.push({ title: '下一篇', path: `/article/detail/${next.articleId}.html`, description: next.title })
+                arr.push({ title: '下一篇', path: `/article/detail/${next.articleId}`, description: next.title })
             } else {
                 arr.push(null)
             }
@@ -81,7 +81,7 @@
     onMounted(() => {
         pageviewCount({
             serverURL: 'https://waline.anyfork.top',
-            path: `/article/detail/${page?.value?.articleId}.html`,
+            path: `/article/detail/${page?.value?.articleId}`,
             update: true
         })
     })

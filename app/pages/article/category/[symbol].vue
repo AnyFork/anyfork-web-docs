@@ -27,7 +27,7 @@
      * @param node
      */
     const selectTreeNode = (node: (typeof category)[number]) => {
-        router.push(`/article/category/${node.symbol}.html`)
+        router.push(`/article/category/${node.symbol}`)
     }
 </script>
 

@@ -62,6 +62,6 @@
      * @param node
      */
     const selectTreeNode = (node: (typeof tag)[number]) => {
-        router.push(`/article/tags/${node.symbol}.html`)
+        router.push(`/article/tags/${node.symbol}`)
     }
 </script>
