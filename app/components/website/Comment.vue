@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <template>
-    <Waline :serverURL="runtimeConfig.public.NUXT_COMMENT_BASE_URL" :path="$route.path" lang="zh-CN" :dark="isDark" reaction :locale="locale" page-view />
+    <Waline :serverURL="runtimeConfig.public.NUXT_COMMENT_BASE_URL" :path="$route.path" lang="zh-CN" :dark="isDark" reaction :locale="locale" />
 </template>
 
 <script setup lang="ts">

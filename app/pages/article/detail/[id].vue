@@ -38,9 +38,10 @@
 <script setup lang="ts">
     import { pageviewCount } from '@waline/client'
     definePageMeta({ layout: 'blank' })
+    const config = useRuntimeConfig()
     const route = useRoute()
-    const { data: page } = await useAsyncData(() => queryCollection('blog').where('articleId', '=', route.params.id).first())
-    const { data: surround } = await useAsyncData(() =>
+    const { data: page } = await useAsyncData(route.path, () => queryCollection('blog').where('articleId', '=', route.params.id).first())
+    const { data: surround } = await useAsyncData(route.path + '-surround', () =>
         queryCollectionItemSurroundings('blog', page.value!.path, {
             fields: ['articleId']
         })
@@ -79,8 +80,9 @@
         keywords: () => page.value?.keywords
     })
     onMounted(() => {
+        //更新浏览量
         pageviewCount({
-            serverURL: 'https://waline.anyfork.top',
+            serverURL: config.public.NUXT_COMMENT_BASE_URL,
             path: `/article/detail/${page?.value?.articleId}`,
             update: true
         })

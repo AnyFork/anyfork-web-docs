@@ -1,33 +1,3 @@
-<template>
-    <div class="w-full">
-        <UBreadcrumb :items="breadcrumb" class="pb-2 md:pb-4" />
-        <UPage :ui="{ left: 'lg:col-span-2', center: 'lg:col-span-8' }">
-            <template #right>
-                <UPageAside class="dark:bg-muted border-default md:ring-default block h-fit rounded-[calc(var(--ui-radius)*2)] border py-2 md:border-0 md:ring lg:top-[calc(var(--ui-header-height)+20px)] lg:py-4 lg:pe-4">
-                    <UTree v-model="clickTreeItem" :items="tag" label-key="name" value-key="id" @update:model-value="selectTreeNode">
-                        <template #item-leading="{ item }">
-                            <Icon v-if="item?.icon" :name="item?.icon" class="size-5 shrink-0" />
-                        </template>
-                    </UTree>
-                </UPageAside>
-            </template>
-            <UPageBody class="mt-2 pb-4 md:mt-0">
-                <div v-if="blog && blog.length > 0">
-                    <WebSiteBlogCard v-for="(item, index) in blog" :key="index" :article="item" :position="(index + 1) % 2 == 0 ? 'left' : 'right'"></WebSiteBlogCard>
-                    <div v-if="blog.length > pageSize" class="text-neutral flex flex-wrap items-center justify-center gap-1">
-                        <UPagination v-model:page="page" :items-per-page="pageSize" :total="blog.length" />
-                        <span class="text-[14px] md:text-[16px]">共{{ blog.length }}条</span>
-                    </div>
-                </div>
-                <div v-else class="border-default flex flex-col items-center justify-center rounded-[calc(var(--ui-radius)*2)] border py-50">
-                    <SvgoEmpty class="block size-30! text-[#f5f5f5]"></SvgoEmpty>
-                    <div class="text-muted">暂无数据</div>
-                </div>
-            </UPageBody>
-        </UPage>
-    </div>
-</template>
-
 <script setup lang="ts">
     definePageMeta({ layout: 'blank' })
     const route = useRoute()
@@ -38,14 +8,27 @@
         throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
     }
     const page = ref(1)
-    const pageSize = ref(10)
+    const pageSize = ref(1)
     const clickTreeItem = ref(dictNode.value)
     const { data: blog } = await useAsyncData(symbol, () =>
         queryCollection('blog')
             .where('tagIds', 'LIKE', '%' + dictNode.value?.id + '%')
             .all()
     )
-
+    // blog总数
+    const total = computed(() => blog.value?.filter((i) => i.tagIds.includes(dictNode.value!.id))?.length || 0)
+    /**
+     * 计算当前页面blog数据
+     */
+    const currentBlogPage = computed(() => {
+        if (blog.value && blog.value.length > 0) {
+            const currentMinNumber = (page.value - 1) * pageSize.value
+            const currentMaxNumber = page.value * pageSize.value
+            return blog.value.filter((i) => i.tagIds.includes(dictNode.value!.id)).slice(currentMinNumber, currentMaxNumber)
+        } else {
+            return []
+        }
+    })
     const breadcrumb = ref([
         {
             label: '首页',
@@ -65,3 +48,32 @@
         router.push(`/article/tags/${node.symbol}`)
     }
 </script>
+<template>
+    <div class="w-full">
+        <UBreadcrumb :items="breadcrumb" class="pb-2 md:pb-4" />
+        <UPage :ui="{ left: 'lg:col-span-2', center: 'lg:col-span-8' }">
+            <template #right>
+                <UPageAside class="dark:bg-muted border-default md:ring-default block h-fit rounded-lg border py-2 md:border-0 md:ring lg:top-[calc(var(--ui-header-height)+20px)] lg:py-4 lg:pe-4">
+                    <UTree v-model="clickTreeItem" :items="tag" label-key="name" value-key="id" @update:model-value="selectTreeNode">
+                        <template #item-leading="{ item }">
+                            <Icon v-if="item?.icon" :name="item?.icon" class="size-5 shrink-0" />
+                        </template>
+                    </UTree>
+                </UPageAside>
+            </template>
+            <UPageBody class="mt-2 pb-4 md:mt-0">
+                <div v-if="total > 0">
+                    <WebSiteBlogCard v-for="(item, index) in currentBlogPage" :key="index" :article="item" :position="(index + 1) % 2 == 0 ? 'left' : 'right'"></WebSiteBlogCard>
+                    <div v-if="total > pageSize" class="text-neutral flex flex-wrap items-center justify-center gap-1">
+                        <UPagination v-model:page="page" :items-per-page="pageSize" :total="total" />
+                        <span class="text-[14px] md:text-[16px]">共{{ total }}条</span>
+                    </div>
+                </div>
+                <div v-else class="border-default flex flex-col items-center justify-center rounded-lg border py-50">
+                    <SvgoEmpty class="block size-30! text-[#f5f5f5]"></SvgoEmpty>
+                    <div class="text-muted">暂无数据</div>
+                </div>
+            </UPageBody>
+        </UPage>
+    </div>
+</template>

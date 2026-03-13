@@ -11,7 +11,7 @@ export default defineContentConfig({
                 createDate: z.iso.datetime(),
                 updateDate: z.iso.datetime(),
                 articleThumb: z.string(),
-                tagIds: z.array(z.string()),
+                tagIds: z.array(z.number()),
                 categoryId: z.number(),
                 articleId: z.bigint(),
                 isTop: z.boolean(),

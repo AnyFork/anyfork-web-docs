@@ -32,7 +32,6 @@ const directive: Directive<loading, boolean> = {
     mounted(el, binding) {
         if (binding.value) {
             const props = getProps(el, binding)
-            console.log(props)
             if (!props.fullscreen) {
                 el.classList.add('relative')
             }

@@ -34,9 +34,9 @@
                     <WebSiteBlogExtra v-if="article.createDate" icon-name="solar:calendar-line-duotone" :text="article.createDate"> </WebSiteBlogExtra>
                     <WebSiteBlogExtra icon-name="system-uicons:book" :text="article.wordCount + '字'"> </WebSiteBlogExtra>
                     <WebSiteBlogExtra icon-name="material-symbols-light:hourglass-outline-rounded" :text="article.readingTime + '分钟'"> </WebSiteBlogExtra>
-                    <div class="text-neutral-muted hover:text-neutral flex cursor-pointer items-center gap-1">
+                    <div v-if="pv" class="text-neutral-muted hover:text-neutral flex cursor-pointer items-center gap-1">
                         <UIcon name="boxicons:hot" />
-                        <div class="waline-pageview-count"></div>
+                        <div>{{ pv }}</div>
                     </div>
                 </div>
             </template>
@@ -47,7 +47,8 @@
 <script setup lang="ts">
     import type { BlogCollectionItem } from '@nuxt/content'
     import type { CardProps } from '@nuxt/ui'
-    import { pageviewCount } from '@waline/client'
+    const config = useRuntimeConfig()
+    const pv = ref()
     const { article } = defineProps<{ article: BlogCollectionItem; position: 'left' | 'right' }>()
     const el = ref<HTMLDivElement>()
     const { elementX, elementY } = useSharedMouseInElement(el)
@@ -64,12 +65,20 @@
         }
         return ''
     })
-    onMounted(() => {
-        pageviewCount({
-            serverURL: 'https://waline.anyfork.top',
-            path: `/article/detail/${article.articleId}`,
-            update: false
-        })
+    onMounted(async () => {
+        try {
+            const { data } = await $fetch<{ data: Array<{ time: number }> }>(`${config.public.NUXT_COMMENT_BASE_URL}/api/article`, {
+                method: 'get',
+                query: {
+                    path: `/article/detail/${article.articleId}`,
+                    type: 'time',
+                    lang: 'zh-CN'
+                }
+            })
+            pv.value = data[0]?.time
+        } catch (e) {
+            console.log(e)
+        }
     })
 </script>
 

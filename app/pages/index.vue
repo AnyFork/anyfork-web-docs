@@ -30,8 +30,8 @@
      */
     const currentBlogPage = computed(() => {
         if (blog.value && blog.value.length > 0) {
-            const currentMinNumber = page.value - 1
-            const currentMaxNumber = page.value * pageSize.value - 1
+            const currentMinNumber = (page.value - 1) * pageSize.value
+            const currentMaxNumber = page.value * pageSize.value
             return blog.value.slice(currentMinNumber, currentMaxNumber)
         } else {
             return []
@@ -85,11 +85,11 @@
             <UCard class="text-neutral h-fit" :ui="{ body: 'relative px-1 py-0! sm:p-6 md:px-2', root: 'ring-0 md:ring md:ring-default' }">
                 <!--热门文章-->
                 <div v-if="hotArticle && hotArticle.length > 0">
-                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center gap-1 rounded-[calc(var(--ui-radius)*2)] border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
+                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center gap-1 rounded-lg border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
                         <Icon name="noto:fire" class="size-5" />
                         <span>热门文章</span>
                     </div>
-                    <div class="dark:bg-muted rounded-[calc(var(--ui-radius)*2)]">
+                    <div class="dark:bg-muted rounded-lg">
                         <div v-for="(item, index) in hotArticle" :key="'hot' + index" class="group flex gap-x-2 border-b border-dashed border-b-neutral-200 py-1 text-[14px]">
                             <span class="group-hover:text-primary text-muted">{{ index + 1 }}</span>
                             <ULink :to="`/article/detail/${item.articleId}`" target="_blank" class="hover:text-primary line-clamp-2">{{ item.title }}</ULink>
@@ -98,11 +98,11 @@
                 </div>
                 <!--精选文章-->
                 <div v-if="recommendArticle && recommendArticle?.length > 0">
-                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center gap-1 rounded-[calc(var(--ui-radius)*2)] border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
+                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center gap-1 rounded-lg border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
                         <Icon name="material-symbols-light:recommend-outline" class="size-5.5" />
                         <span>精选文章</span>
                     </div>
-                    <div class="dark:bg-muted rounded-[calc(var(--ui-radius)*2)]">
+                    <div class="dark:bg-muted rounded-lg">
                         <div v-for="(item, index) in recommendArticle" :key="'hot' + index" class="flex gap-x-2 border-b border-dashed border-b-neutral-200 py-1 text-[14px]">
                             <div class="group flex items-center gap-2">
                                 <img :src="item.articleThumb" class="w-1/3 rounded transition-transform group-hover:scale-95" />
@@ -116,7 +116,7 @@
                 </div>
                 <!--文章分类 -->
                 <div v-if="cateComputed.categoryArray?.length > 0">
-                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-[calc(var(--ui-radius)*2)] border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
+                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-lg border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
                         <div class="flex items-center gap-1">
                             <Icon name="wordpress:category" class="size-5" />
                             <span>文章分类</span>
@@ -126,18 +126,18 @@
                         </ULink>
                     </div>
                     <div class="my-1 w-full">
-                        <NuxtLink v-for="(cateItem, index) in cateComputed.categoryArray" :key="'category' + index" :to="`/article/category/${cateItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default my-1 flex h-8 w-full cursor-pointer items-center justify-between rounded-[calc(var(--ui-radius)*2)] border pr-3.5 pl-2 text-[14px]">
+                        <NuxtLink v-for="(cateItem, index) in cateComputed.categoryArray" :key="'category' + index" :to="`/article/category/${cateItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default my-1 flex h-8 w-full cursor-pointer items-center justify-between rounded-lg border pr-3.5 pl-2 text-[14px]">
                             <div class="flex items-center gap-1">
                                 <Icon v-if="cateItem.icon" :name="cateItem.icon" class="size-4" />
                                 <span>{{ cateItem.name }}</span>
                             </div>
-                            <span class="h-4 w-4 rounded-[calc(var(--ui-radius)*2)] text-center text-[9px] leading-4 text-white" :style="{ 'background-color': 'var(--ui-primary)' }">{{ cateComputed.cateTemp[cateItem.id as number]! > 99 ? '99+' : cateComputed.cateTemp[cateItem.id as number]! }} </span>
+                            <span class="h-4 w-4 rounded-lg text-center text-[9px] leading-4 text-white" :style="{ 'background-color': 'var(--ui-primary)' }">{{ cateComputed.cateTemp[cateItem.id as number]! > 99 ? '99+' : cateComputed.cateTemp[cateItem.id as number]! }} </span>
                         </NuxtLink>
                     </div>
                 </div>
                 <!--文章标签-->
                 <div v-if="cateComputed.tagArray?.length > 0">
-                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-[calc(var(--ui-radius)*2)] border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
+                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-lg border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
                         <div class="flex items-center gap-1">
                             <Icon name="fluent:tag-lock-20-regular" class="size-5" />
                             <span>文章标签</span>
@@ -147,18 +147,18 @@
                         </ULink>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <NuxtLink v-for="(tagItem, index) in cateComputed.tagArray" :key="'tag' + index" :to="`/article/tags/${tagItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default flex items-center justify-between rounded-[calc(var(--ui-radius)*2)] border p-1 text-[14px]">
+                        <NuxtLink v-for="(tagItem, index) in cateComputed.tagArray" :key="'tag' + index" :to="`/article/tags/${tagItem.symbol}`" target="_blank" class="hover:bg-primary/10 hover:border-primary bg-default text-neutral-muted dark:bg-muted border-default flex items-center justify-between rounded-lg border p-1 text-[14px]">
                             <div class="flex items-center gap-1">
                                 <Icon v-if="tagItem.icon" :name="tagItem.icon" class="size-4" />
                                 <span>{{ tagItem.name }}</span>
                             </div>
-                            <span class="mr-1.75 ml-1.25 h-4 w-4 rounded-[calc(var(--ui-radius)*2)] text-center text-[9px] leading-4 text-white" :style="{ 'background-color': 'var(--ui-primary)' }">{{ cateComputed.tagTemp[tagItem.id]! > 99 ? '99+' : cateComputed.tagTemp[tagItem.id] }} </span>
+                            <span class="mr-1.75 ml-1.25 h-4 w-4 rounded-lg text-center text-[9px] leading-4 text-white" :style="{ 'background-color': 'var(--ui-primary)' }">{{ cateComputed.tagTemp[tagItem.id]! > 99 ? '99+' : cateComputed.tagTemp[tagItem.id] }} </span>
                         </NuxtLink>
                     </div>
                 </div>
                 <!--快捷导航-->
                 <div v-if="indexLink?.length > 0">
-                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-[calc(var(--ui-radius)*2)] border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
+                    <div class="dark:bg-muted border-l-primary border-default my-2 flex items-center justify-between gap-1 rounded-lg border border-l-[3px] border-solid px-2 py-1 text-[16px] leading-6 font-bold">
                         <div class="flex items-center gap-1">
                             <Icon name="fluent:cloud-link-20-regular" class="size-5" />
                             <span>快捷导航</span>
@@ -168,7 +168,7 @@
                         </ULink>
                     </div>
                     <div class="my-1 flex flex-wrap gap-y-4">
-                        <ULink v-for="(linkCard, index) in indexLink" :key="'link-item' + index" :to="linkCard.linkHref" target="_blank" class="group dark:bg-muted border-default bg-default hover:bg-primary/10 hover:border-primary relative flex w-full items-center gap-x-3 rounded-[calc(var(--ui-radius)*2)] border px-2.5 py-4 transition-colors">
+                        <ULink v-for="(linkCard, index) in indexLink" :key="'link-item' + index" :to="linkCard.linkHref" target="_blank" class="group dark:bg-muted border-default bg-default hover:bg-primary/10 hover:border-primary relative flex w-full items-center gap-x-3 rounded-lg border px-2.5 py-4 transition-colors">
                             <AvatarItem v-if="linkCard.linkIcon" :img="linkCard.linkIcon" class="size-10 shrink-0" />
                             <Icon name="i-lucide:arrow-up-right" class="text-dimmed group-hover:text-primary pointer-events-none absolute top-2 right-2 size-4 align-top transition-colors"></Icon>
                             <div class="overflow-hidden">
