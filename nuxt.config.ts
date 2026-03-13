@@ -1,6 +1,10 @@
+import { getCategory } from './app/utils/data/category'
+import { getTags } from './app/utils/data/tag'
+import { calculateContentStats } from './app/utils/tools/blog'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxt/ui', '@nuxt/content', '@nuxt/eslint', '@vueuse/nuxt', 'dayjs-nuxt', '@nuxtjs/device', '@nuxtjs/algolia'],
+    modules: ['@nuxt/ui', '@nuxt/content', '@nuxt/eslint', '@vueuse/nuxt', 'dayjs-nuxt', '@nuxtjs/device', '@nuxtjs/algolia', 'nuxt-svgo'],
+    ssr: true,
     //自定义组件前缀，禁止路径前缀
     components: [
         // 网站组件采用WebSite前缀
@@ -84,7 +88,19 @@ export default defineNuxtConfig({
         //存储cookie名称
         storageKey: 'nuxt-color-mode'
     },
-    content: {},
+    //@nuxt/content配置，@see https://content.nuxt.com/docs/getting-started/configuration#markdown
+    content: {
+        build: {
+            markdown: {
+                toc: {
+                    // 要包含在目录中的最大标题深度。depth:3表示包含h3
+                    depth: 3,
+                    //要搜索标题的嵌套标签的最大深度
+                    searchDepth: 3
+                }
+            }
+        }
+    },
     ui: {
         //开启@nuxt/fonts模块,默认为true
         fonts: false,
@@ -134,7 +150,14 @@ export default defineNuxtConfig({
             publicDir: 'dist'
         },
         // 通过cross-env动态设置预设
-        preset: process.env.NITRO_PRESET
+        preset: process.env.NITRO_PRESET,
+        prerender: {
+            //禁用后路由/about直接生成 /about.html，而不是 /about/index.html
+            autoSubfolderIndex: false,
+            // 启用自动爬虫发现路由
+            crawlLinks: true
+            // routes: ['/article/category/search.html']
+        }
     },
     vite: {
         vue: {
@@ -167,6 +190,34 @@ export default defineNuxtConfig({
             }
         }
     },
+    hooks: {
+        'content:file:afterParse'(ctx) {
+            const { file, content } = ctx
+            //统计markdown字数和阅读时间
+            const wordsPerMinute = 180
+            const text = typeof file.body === 'string' ? file.body : ''
+            const { wordCount, readingTime } = calculateContentStats(text, wordsPerMinute)
+            content.readingTime = readingTime
+            content.wordCount = wordCount
+            //获取markdown分类和标签
+            const categoryId = content?.categoryId as number
+            const tagIds = content?.tagIds as number[]
+            if (categoryId) {
+                content.categoryInfo = getCategory(categoryId as number)
+            }
+            if (tagIds && tagIds.length > 0) {
+                content.tagInfo = getTags(tagIds)
+            }
+        },
+        //重写路由规则，加上.html后缀
+        'pages:extend'(pages) {
+            pages.forEach((page) => {
+                if (page.path !== '/') {
+                    page.path = `${page.path}.html`
+                }
+            })
+        }
+    },
     //docSearch配置，参考文档：https://algolia.nuxtjs.org/advanced/docsearch
     algolia: {
         apiKey: '80f3f9f2e9287eb88686df5912a368f6',
@@ -184,28 +235,19 @@ export default defineNuxtConfig({
             cache: true
         }
     },
-    //自定义字体
-    // fonts: {
-    //     families: [
-    //         { name: 'Public Sans', provider: 'google', global: true },
-    //         { name: 'DM Sans', provider: 'google', global: true },
-    //         { name: 'Geist', provider: 'google', global: true },
-    //         { name: 'Inter', provider: 'google', global: true },
-    //         { name: 'Poppins', provider: 'google', global: true },
-    //         { name: 'Outfit', provider: 'google', global: true },
-    //         { name: 'Raleway', provider: 'google', global: true }
-    //     ]
-    // },
     // @nuxt/icon配置，参考：https://nuxt.com/modules/icon
     icon: {
         // 图标从iconify获取
         provider: 'iconify',
         serverBundle: false,
         // 拉取图标时超时时间
-        fetchTimeout: 3000,
+        fetchTimeout: 5000,
         // icon渲染模式，采用css类进行渲染
         mode: 'css',
         // css layer名称
         cssLayer: 'base'
+    },
+    svgo: {
+        dts: true
     }
 })

@@ -1,5 +1,6 @@
 <template>
     <UApp :locale="zh_cn" :toaster="appConfig.toaster">
+        <NuxtLoadingIndicator :color="nuxtLoadingIndicatorSuccessColor" :error-color="nuxtLoadingIndicatorErrorColor" />
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
@@ -26,6 +27,8 @@
     const radius = computed(() => `:root { --ui-radius: ${appConfig.theme?.radius}rem; }`)
     const font = computed(() => `:root { --font-sans: '${appConfig.theme.font}', sans-serif; }`)
     const blackAsPrimary = computed(() => (appConfig.theme?.blackAsPrimary ? `:root { --ui-primary: black;--ui-color-primary-100: oklch(0.5103 0 0);--ui-color-primary-600: oklch(0 0 0); } .dark { --ui-primary: white;--ui-color-primary-100: oklch(0.683 0 0);--ui-color-primary-600: oklch(1 0 0) }` : ':root {}'))
+    const nuxtLoadingIndicatorSuccessColor = `repeating-linear-gradient(to right,var(--ui-color-primary-50) 0%,var(--ui-color-primary-500) 50%,var(--ui-color-primary-900) 100%)`
+    const nuxtLoadingIndicatorErrorColor = `repeating-linear-gradient(to right,var(--ui-color-error-50) 0%,var(--ui-color-error-500) 50%,var(--ui-color-error-900) 100%)`
 
     useHead({
         meta: [{ key: 'theme-color', name: 'theme-color', content: color }],

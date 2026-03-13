@@ -80,8 +80,11 @@
         "crypto-js": "^4.2.0",
         "dayjs-nuxt": "^2.1.11",
         "nuxt": "^4.3.1",
+        "nuxt-svgo": "^4.2.6",
         "tailwindcss": "^4.2.1",
-        "typed.js": "^3.0.0"
+        "typed.js": "^3.0.0",
+        "yup": "^1.7.1",
+        "zod": "^4.3.6"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.4.3",

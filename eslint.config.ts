@@ -15,6 +15,6 @@ export default withNuxt(
     },
     // 排除不需要eslint进行代码质量检测的文件，全局忽略规则,可以不用单独配置.eslintignore文件
     {
-        ignores: ['node_modules/**', '.output/**', 'public/**', 'content/**']
+        ignores: ['node_modules/**', '.output/**', 'public/**', 'content/**/*.md']
     }
 )
