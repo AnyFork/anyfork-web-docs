@@ -56,9 +56,6 @@ importers:
       typed.js:
         specifier: ^3.0.0
         version: 3.0.0
-      yup:
-        specifier: ^1.7.1
-        version: 1.7.1
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -14314,7 +14311,8 @@ snapshots:
 
   process@0.11.10: {}
 
-  property-expr@2.0.6: {}
+  property-expr@2.0.6:
+    optional: true
 
   property-information@7.1.0: {}
 
@@ -15365,7 +15363,8 @@ snapshots:
 
   through@2.3.8: {}
 
-  tiny-case@1.0.3: {}
+  tiny-case@1.0.3:
+    optional: true
 
   tiny-inflate@1.0.3: {}
 
@@ -15399,7 +15398,8 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
-  toposort@2.0.2: {}
+  toposort@2.0.2:
+    optional: true
 
   totalist@3.0.1: {}
 
@@ -15427,7 +15427,8 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  type-fest@2.19.0: {}
+  type-fest@2.19.0:
+    optional: true
 
   type-fest@4.41.0: {}
 
@@ -16063,6 +16064,7 @@ snapshots:
       tiny-case: 1.0.3
       toposort: 2.0.2
       type-fest: 2.19.0
+    optional: true
 
   zip-stream@6.0.1:
     dependencies:

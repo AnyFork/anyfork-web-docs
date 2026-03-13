@@ -83,7 +83,6 @@
         "nuxt-svgo": "^4.2.6",
         "tailwindcss": "^4.2.1",
         "typed.js": "^3.0.0",
-        "yup": "^1.7.1",
         "zod": "^4.3.6"
     },
     "devDependencies": {

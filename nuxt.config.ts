@@ -77,11 +77,6 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/css/index.css'],
-    router: {
-        options: {
-            strict: true
-        }
-    },
     // @nuxtjs/color-mode 配置，参考：https://color-mode.nuxtjs.org/#configuration
     colorMode: {
         //修改class默认后缀
@@ -161,7 +156,6 @@ export default defineNuxtConfig({
             autoSubfolderIndex: false,
             // 启用自动爬虫发现路由
             crawlLinks: true
-            // routes: ['/article/category/search.html']
         }
     },
     vite: {
@@ -214,14 +208,6 @@ export default defineNuxtConfig({
                 content.tagInfo = getTags(tagIds)
             }
         }
-        //重写路由规则，加上.html后缀
-        // 'pages:extend'(pages) {
-        //     pages.forEach((page) => {
-        //         if (page.path !== '/') {
-        //             page.path = `${page.path}.html`
-        //         }
-        //     })
-        // }
     },
     //docSearch配置，参考文档：https://algolia.nuxtjs.org/advanced/docsearch
     algolia: {
