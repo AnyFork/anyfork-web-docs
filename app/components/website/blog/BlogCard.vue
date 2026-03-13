@@ -1,5 +1,5 @@
 <template>
-    <div ref="el" :style="{ '--x': `${elementX}px`, '--y': `${elementY}px` }" class="background-gradient group relative mb-2 rounded-[calc(var(--ui-radius)*2)] before:absolute before:-inset-0.5 before:-z-1 before:hidden before:h-[calc(100%+4px)] before:w-[calc(100%+4px)] before:rounded-[calc(var(--ui-radius)*2)] md:mb-5 md:p-0.5 md:hover:shadow-xl before:lg:block">
+    <div ref="el" :style="{ '--x': `${elementX}px`, '--y': `${elementY}px` }" class="background-gradient group relative mb-2 rounded-lg before:absolute before:-inset-0.5 before:-z-1 before:hidden before:h-[calc(100%+4px)] before:w-[calc(100%+4px)] before:rounded-lg md:mb-5 md:p-0.5 md:hover:shadow-xl before:lg:block">
         <div v-if="article?.isTop" class="to-top absolute top-0 right-0.5 z-0 md:top-1 md:right-0.5">
             <UIcon name="icon-park-outline:to-top" class="size-4 text-white md:size-5"></UIcon>
         </div>
@@ -7,7 +7,7 @@
             <NuxtLink :to="`/article/detail/${article?.articleId}`" target="_blank" class="absolute inset-0 border-none focus:outline-none"></NuxtLink>
             <div v-if="position == 'left'" class="md:flex md:gap-6">
                 <div class="w-full md:flex md:w-70 md:grow-0">
-                    <img :src="article?.articleThumb" loading="lazy" class="h-32.5 w-full rounded-[calc(var(--ui-radius)*2)] transition-transform duration-1000 md:h-32.5 md:w-70 md:animate-pulse md:group-hover:scale-105" />
+                    <img :src="article?.articleThumb" loading="lazy" class="h-32.5 w-full rounded-lg transition-transform duration-1000 md:h-32.5 md:w-70 md:animate-pulse md:group-hover:scale-105" />
                 </div>
                 <div class="w-full cursor-pointer overflow-hidden md:flex-1">
                     <UTooltip :text="article.title" arrow :content="{ side: 'top', sideOffset: 2 }" class="text-neutral hover:text-primary dark:hover:text-primary-400 relative z-49 my-1 line-clamp-2 block text-[15px] font-bold md:mt-0 md:mb-2.5 md:truncate md:text-[20px]">
@@ -24,7 +24,7 @@
                     <div class="text-neutral-muted hover:text-neutral line-clamp-4 w-full text-[14px] md:text-[15px]">{{ excerpt }}</div>
                 </div>
                 <div class="w-full md:flex md:w-70 md:shrink-0 md:justify-end">
-                    <img :src="article.articleThumb" loading="lazy" class="h-32.5 w-full rounded-[calc(var(--ui-radius)*2)] transition-transform duration-1000 md:h-32.5 md:w-70 md:animate-pulse md:group-hover:scale-105" />
+                    <img :src="article.articleThumb" loading="lazy" class="h-32.5 w-full rounded-lg transition-transform duration-1000 md:h-32.5 md:w-70 md:animate-pulse md:group-hover:scale-105" />
                 </div>
             </div>
             <template #footer>
